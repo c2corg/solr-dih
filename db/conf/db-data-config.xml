@@ -3,7 +3,11 @@
     url="jdbc:postgresql://${dataimporter.request.jdbcHost}:5432/c2corg"
     user="${dataimporter.request.jdbcUsername}"
     password="${dataimporter.request.jdbcPassword}"
-    ssl="true" 
+    readOnly="true"
+    autoCommit="false"
+    transactionIsolation="TRANSACTION_READ_COMMITTED"
+    holdability="CLOSE_CURSORS_AT_COMMIT"
+    ssl="true"
     sslfactory="org.postgresql.ssl.NonValidatingFactory" />
     <document>
         
