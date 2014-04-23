@@ -1,8 +1,8 @@
 <dataConfig>
     <dataSource driver="org.postgresql.Driver"
-    url="jdbc:postgresql://localhost:5432/c2corg"
-    user="www-data"
-    password="password"
+    url="jdbc:postgresql://${dataimporter.request.jdbcHost}:5432/c2corg"
+    user="${dataimporter.request.jdbcUsername}"
+    password="${dataimporter.request.jdbcPassword}"
     ssl="true" 
     sslfactory="org.postgresql.ssl.NonValidatingFactory" />
     <document>

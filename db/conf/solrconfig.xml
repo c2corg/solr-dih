@@ -335,6 +335,9 @@
    <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
     <lst name="defaults">
     	<str name="config">db-data-config.xml</str>
+      <str name="jdbcHost">${c2corg.dbhost:localhost}</str>
+      <str name="jdbcUsername">${c2corg.dbuser:www-data}</str>
+      <str name="jdbcPassword">${c2corg.dbpass:password}</str>
     </lst>
   </requestHandler>
    
