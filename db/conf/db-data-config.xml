@@ -246,7 +246,58 @@
                         <field column="culture" name="culture" /> 
                    </entity>            
            </entity>
-                     
+             <entity name="images" 
+                   pk="id"
+                   query="SELECT id,module from app_images_archives where is_latest_version = true "
+                   deltaQuery="SELECT id FROM app_documents_versions, app_images_archives, app_history_metadata WHERE 
+                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                   app_documents_versions.document_archive_id = app_images_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+               
+                   deltaImportQuery="SELECT id,module from app_images_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                   <field column="module" name="module" />    
+                   <field column="id" name="id_doc" />
+                   <entity name="images_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_images_i18n_archives where is_latest_version = true and id=${images.id}">
+                        <field column="name" name="name" />
+                        <field column="document_i18n_archive_id" name="id_in18" />
+                        <field column="culture" name="culture" /> 
+                   </entity>            
+           </entity>
+           
+           <!-- To do add activities -->
+           
+            <entity name="maps" 
+                   pk="id"
+                   query="SELECT id,module from app_maps_archives where is_latest_version = true "
+                   deltaQuery="SELECT id FROM app_documents_versions, app_maps_archives, app_history_metadata WHERE 
+                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                   app_documents_versions.document_archive_id = app_maps_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+               
+                   deltaImportQuery="SELECT id,module from app_maps_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                   <field column="module" name="module" />    
+                   <field column="id" name="id_doc" />
+                   <entity name="maps_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_maps_i18n_archives where is_latest_version = true and id=${maps.id}">
+                        <field column="name" name="name" />
+                        <field column="document_i18n_archive_id" name="id_in18" />
+                        <field column="culture" name="culture" /> 
+                   </entity>            
+           </entity>
+           
+           <entity name="portals" 
+                   pk="id"
+                   query="SELECT id,module from app_portals_archives where is_latest_version = true "
+                   deltaQuery="SELECT id FROM app_documents_versions, app_portals_archives, app_history_metadata WHERE 
+                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                   app_documents_versions.document_archive_id = app_portals_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+               
+                   deltaImportQuery="SELECT id,module from app_portals_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                   <field column="module" name="module" />    
+                   <field column="id" name="id_doc" />
+                   <entity name="portals_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_portals_i18n_archives where is_latest_version = true and id=${portals.id}">
+                        <field column="name" name="name" />
+                        <field column="document_i18n_archive_id" name="id_in18" />
+                        <field column="culture" name="culture" /> 
+                   </entity>            
+           </entity>           
           
     </document>
 </dataConfig>
