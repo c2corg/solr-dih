@@ -178,7 +178,7 @@
                app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
                app_documents_versions.document_archive_id = app_articles_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
                
-               deltaQueryImport="select id,activities,module from app_articles_archives where is_latest_version = true AND id=${dataimporter.delta.id}  "           > 
+               deltaImportQuery="select id,activities,module from app_articles_archives where is_latest_version = true AND id=${dataimporter.delta.id}  "           > 
                
                <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
                <field column="id" name="id_doc" />
