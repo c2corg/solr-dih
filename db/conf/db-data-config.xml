@@ -10,117 +10,107 @@
     ssl="true"
     sslfactory="org.postgresql.ssl.NonValidatingFactory" />
     <document>
-        
-          <entity name="outings" transformer="RegexTransformer" 
-                   pk="id"
-                   query="SELECT id,module,elevation, date, activities, height_diff_up, height_diff_down, outing_length, 
-                   min_elevation, max_elevation, partial_trip, hut_status, frequentation_status, 
-                   glacier_status, up_snow_elevation, down_snow_elevation, track_status, 
-                   outing_with_public_transportation from app_outings_archives where is_latest_version = true "
-                   
-                   deltaQuery="SELECT id FROM app_documents_versions, app_outings_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_outings_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module from app_outings_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   
-                  <field column="id" name="id_doc" />       
-                  <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
-                  <field column="elevation" name="elevation" />
-                  <field column="module" name="module" />
-                  <field column="min_elevation" name="maxelevation" />
-                  <field column="max_elevation" name="maxelevation" />
-                  <field column="height_Diff_Up" name="heightDiffUp" />
-                  <field column="height_Diff_Down" name="heightDiffDown" />
-                  <field column="date" name="date" />
-                  <field column="outing_length" name="lenght" /> 
-                  <field column="partial_trip" name="partial_trip" />
-                  <field column="hut_status" name="hut_status" />
-                  <field column="frequentation_status" name="frequentation_status" /> 
-                  <field column="glacier_status" name="glacier_status" />
-                  <field column="up_snow_elevation" name="up_snow_elevation" />
-                  <field column="down_snow_elevation" name="down_snow_elevation" /> 
-                  <field column="track_status" name="track_status" /> 
-                  <field column="outing_with_public_transportation" name="outing_with_public_transportation" />
-                   <entity name="outings_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_outings_i18n_archives where is_latest_version = true and id=${outings.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
+        <entity name="outings" transformer="RegexTransformer" 
+            pk="id"
+            query="SELECT id,module,elevation, date, activities, height_diff_up, height_diff_down, outing_length, 
+            min_elevation, max_elevation, partial_trip, hut_status, frequentation_status, 
+            glacier_status, up_snow_elevation, down_snow_elevation, track_status, 
+            outing_with_public_transportation from app_outings_archives where is_latest_version = true "
+            deltaQuery="SELECT id FROM app_documents_versions, app_outings_archives, app_history_metadata WHERE 
+            app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+            app_documents_versions.document_archive_id = app_outings_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+            deltaImportQuery="SELECT id,module from app_outings_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
            
-          <entity name="huts" transformer="RegexTransformer" query="select id,activities,module,elevation,shelter_type,is_staffed,phone,url,staffed_capacity,
-               unstaffed_capacity,has_unstaffed_matress,has_unstaffed_blanket,has_unstaffed_gas,has_unstaffed_wood from app_huts_archives where is_latest_version = true "
-               pk="id" 
-               deltaQuery="SELECT id FROM app_documents_versions, app_huts_archives, app_history_metadata WHERE 
-               app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-               app_documents_versions.document_archive_id = app_huts_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-               deltaImportQuery="select id,activities,module,elevation,shelter_type,is_staffed,phone,url,staffed_capacity,
-               unstaffed_capacity,has_unstaffed_matress,has_unstaffed_blanket,has_unstaffed_gas,has_unstaffed_wood from app_huts_archives where id=${dataimporter.delta.id} and is_latest_version = true" >
-               
-               <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
-               <field column="id" name="id_doc" />
-               <field column="elevation" name="elevation" />
-               <field column="module" name="module" />
-               <field column="shelter_type" name="shelter_type"/>
-               <field column="is_staffed" name="is_staffed"/>
-               <field column="phone" name="phone"/>
-               <field column="url" name="url"/>
-               <field column="staffed_capacity" name="staffed_capacity"/>
-               <field column="unstaffed_capacity" name="unstaffed_capacity" />
-               <field column="has_unstaffed_matress" name="has_unstaffed_matress"/>
-               <field column="has_unstaffed_blanket" name="has_unstaffed_blanket" />
-               <field column="has_unstaffed_gas" name="has_unstaffed_gas" />
-               <field column="has_unstaffed_wood" name="has_unstaffed_wood"/>
-               <entity name="huts_in18" 
-                       pk="document_i18n_archive_id"
-                       query="SELECT name,document_i18n_archive_id,culture from app_huts_i18n_archives where is_latest_version = true and id=${huts.id}" >
-                   <field column="name" name="name" />
-                   <field column="document_i18n_archive_id" name="id_in18" />
-                   <field column="culture" name="culture" /> 
-               </entity>
-          </entity>
-
-         <entity name="summits" 
-                 pk="id"
-                 query="SELECT id, module,elevation from app_summits_archives where is_latest_version = true "
-                 deltaQuery="SELECT id FROM app_documents_versions, app_summits_archives, app_history_metadata WHERE 
-                 app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                 app_documents_versions.document_archive_id = app_summits_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                 deltaImportQuery="SELECT id, module,elevation from app_summits_archives where is_latest_version = true AND id=${dataimporter.delta.id}" >     
-               <field column="id" name="id_doc" />
-               <field column="elevation" name="elevation" />
-               <field column="module" name="module" />
+            <field column="id" name="id_doc" />       
+            <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
+            <field column="elevation" name="elevation" />
+            <field column="module" name="module" />
+            <field column="min_elevation" name="maxelevation" />
+            <field column="max_elevation" name="maxelevation" />
+            <field column="height_Diff_Up" name="heightDiffUp" />
+            <field column="height_Diff_Down" name="heightDiffDown" />
+            <field column="date" name="date" />
+            <field column="outing_length" name="lenght" /> 
+            <field column="partial_trip" name="partial_trip" />
+            <field column="hut_status" name="hut_status" />
+            <field column="frequentation_status" name="frequentation_status" /> 
+            <field column="glacier_status" name="glacier_status" />
+            <field column="up_snow_elevation" name="up_snow_elevation" />
+            <field column="down_snow_elevation" name="down_snow_elevation" /> 
+            <field column="track_status" name="track_status" /> 
+            <field column="outing_with_public_transportation" name="outing_with_public_transportation" />
+            <entity name="outings_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_outings_i18n_archives where is_latest_version = true and id=${outings.id}">
+                <field column="name" name="name" />
+                <field column="document_i18n_archive_id" name="id_in18" />
+                <field column="culture" name="culture" /> 
+            </entity>            
+        </entity>
+        <entity name="huts" transformer="RegexTransformer" query="select id,activities,module,elevation,shelter_type,is_staffed,phone,url,staffed_capacity,
+            unstaffed_capacity,has_unstaffed_matress,has_unstaffed_blanket,has_unstaffed_gas,has_unstaffed_wood from app_huts_archives where is_latest_version = true "
+            pk="id" 
+            deltaQuery="SELECT id FROM app_documents_versions, app_huts_archives, app_history_metadata WHERE 
+            app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+            app_documents_versions.document_archive_id = app_huts_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+            deltaImportQuery="select id,activities,module,elevation,shelter_type,is_staffed,phone,url,staffed_capacity,
+            unstaffed_capacity,has_unstaffed_matress,has_unstaffed_blanket,has_unstaffed_gas,has_unstaffed_wood from app_huts_archives where id=${dataimporter.delta.id} and is_latest_version = true" >
+            <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
+            <field column="id" name="id_doc" />
+            <field column="elevation" name="elevation" />
+            <field column="module" name="module" />
+            <field column="shelter_type" name="shelter_type"/>
+            <field column="is_staffed" name="is_staffed"/>
+            <field column="phone" name="phone"/>
+            <field column="url" name="url"/>
+            <field column="staffed_capacity" name="staffed_capacity"/>
+            <field column="unstaffed_capacity" name="unstaffed_capacity" />
+            <field column="has_unstaffed_matress" name="has_unstaffed_matress"/>
+            <field column="has_unstaffed_blanket" name="has_unstaffed_blanket" />
+            <field column="has_unstaffed_gas" name="has_unstaffed_gas" />
+            <field column="has_unstaffed_wood" name="has_unstaffed_wood"/>
+            <entity name="huts_in18" 
+                pk="document_i18n_archive_id"
+                query="SELECT name,document_i18n_archive_id,culture from app_huts_i18n_archives where is_latest_version = true and id=${huts.id}" >
+                <field column="name" name="name" />
+                <field column="document_i18n_archive_id" name="id_in18" />
+                <field column="culture" name="culture" /> 
+                <field column="description" name="description" />
+            </entity>
+        </entity>
+        <entity name="summits" 
+            pk="id"
+            query="SELECT id, module,elevation from app_summits_archives where is_latest_version = true "
+            deltaQuery="SELECT id FROM app_documents_versions, app_summits_archives, app_history_metadata WHERE 
+            app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+            app_documents_versions.document_archive_id = app_summits_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+            deltaImportQuery="SELECT id, module,elevation from app_summits_archives where is_latest_version = true AND id=${dataimporter.delta.id}" >     
+                <field column="id" name="id_doc" />
+                <field column="elevation" name="elevation" />
+                <field column="module" name="module" />
                 <entity name="summits_i18n" query="SELECT id,name,document_i18n_archive_id,culture from app_summits_i18n_archives where is_latest_version = true and id=${summits.id} ">
-                      <field column="name" name="name" />
-                      <field column="module" name="module" />
-                      <field column="document_i18n_archive_id" name="id_in18" />
-                      <field column="id" name="id_doc" />
-                      <field column="culture" name="culture" /> 
-                </entity>
-          </entity> 
-         
-          <entity name="routes" transformer="RegexTransformer" 
-                  pk="id"
-                  
-                  query="select id,activities,elevation,id,module,max_elevation,min_elevation,height_Diff_Up,geom, facing,slope,global_rating,engagement_rating,
-                  equipment_rating,is_on_glacier,toponeige_technical_rating,toponeige_exposition_rating,
-                  labande_ski_rating,labande_global_rating,ice_rating,mixed_rating,rock_free_rating,rock_required_rating,aid_rating,hiking_rating,snowshoeing_rating,
-                  objective_risk_rating,rock_exposition_rating
-                  from app_routes_archives where is_latest_version = true  "  
-                  
-                  deltaImportQuery="select id,activities,elevation,id,module,max_elevation,min_elevation,height_Diff_Up,geom, facing,slope,global_rating,engagement_rating,
-                  equipment_rating,is_on_glacier,toponeige_technical_rating,toponeige_exposition_rating,
-                  labande_ski_rating,labande_global_rating,ice_rating,mixed_rating,rock_free_rating,rock_required_rating,aid_rating,hiking_rating,snowshoeing_rating,
-                  objective_risk_rating,rock_exposition_rating
-                  from app_routes_archives where is_latest_version = true AND id=${dataimporter.delta.id}"
-                  
-                  deltaQuery="SELECT id FROM app_documents_versions, app_routes_archives, app_history_metadata WHERE 
-                  app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                  app_documents_versions.document_archive_id = app_routes_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'" >
-                
+                <field column="name" name="name" />
+                <field column="module" name="module" />
+                <field column="document_i18n_archive_id" name="id_in18" />
+                <field column="id" name="id_doc" />
+                <field column="culture" name="culture" /> 
+                <field column="description" name="description" />
+            </entity>
+        </entity> 
+             
+        <entity name="routes" transformer="RegexTransformer" 
+            pk="id"
+            query="select id,activities,elevation,id,module,max_elevation,min_elevation,height_Diff_Up,geom, facing,slope,global_rating,engagement_rating,
+            equipment_rating,is_on_glacier,toponeige_technical_rating,toponeige_exposition_rating,
+            labande_ski_rating,labande_global_rating,ice_rating,mixed_rating,rock_free_rating,rock_required_rating,aid_rating,hiking_rating,snowshoeing_rating,
+            objective_risk_rating,rock_exposition_rating
+            from app_routes_archives where is_latest_version = true  "  
+            deltaImportQuery="select id,activities,elevation,id,module,max_elevation,min_elevation,height_Diff_Up,geom, facing,slope,global_rating,engagement_rating,
+            equipment_rating,is_on_glacier,toponeige_technical_rating,toponeige_exposition_rating,
+            labande_ski_rating,labande_global_rating,ice_rating,mixed_rating,rock_free_rating,rock_required_rating,aid_rating,hiking_rating,snowshoeing_rating,
+            objective_risk_rating,rock_exposition_rating
+            from app_routes_archives where is_latest_version = true AND id=${dataimporter.delta.id}"
+            deltaQuery="SELECT id FROM app_documents_versions, app_routes_archives, app_history_metadata WHERE 
+            app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+            app_documents_versions.document_archive_id = app_routes_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'" >
                 <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
                 <field column="elevation" name="elevation" />
                 <field column="id" name="id_doc" />     
@@ -149,155 +139,135 @@
                 <field column="objective_risk_rating" name="objective_risk_rating" />
                 <field column="rock_exposition_rating" name="rock_exposition_rating" />         
                 <entity name="routes_i18n" query="SELECT id,name,document_i18n_archive_id,culture from app_routes_i18n_archives where is_latest_version = true and id = ${routes.id} ">
-                      <field column="name" name="name" />
-                      <field column="document_i18n_archive_id" name="id_in18" />
-                      <field column="culture" name="culture" /> 
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
                 </entity>
-                <!--
-                <entity name="summit_route" query="SELECT main_id , elevation FROM app_documents_associations,app_summits_archives WHERE linked_id = ${routes.id} AND type = 'sr' AND id = main_id group by main_id,elevation order by elevation desc" >
-                    <field column="main_id" name="id_linked_summit" />
+            </entity>
+            <entity name="articles" transformer="RegexTransformer" 
+                    pk="id"
+                    query="select id,activities,module from app_articles_archives where is_latest_version = true  "
+                   
+                    deltaQuery="SELECT id FROM app_documents_versions, app_articles_archives, app_history_metadata WHERE 
+                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                   app_documents_versions.document_archive_id = app_articles_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaQueryImport="select id,activities,module from app_articles_archives where is_latest_version = true AND id=${dataimporter.delta.id}  "           > 
+                   
+                <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
+                <field column="id" name="id_doc" />
+                <field column="module" name="module" />
+                <entity name="articles_in18" query="SELECT id,name,document_i18n_archive_id,description,abstract,culture from app_articles_i18n_archives where is_latest_version = true and id=${articles.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="abstract" name="abstract" />
+                    <field column="description" name="description" />
+                    <field column="culture" name="culture" />     
                 </entity>
-                 <entity name="count_parking_route" query="SELECT count(main_id) as nb_linked_parking FROM app_documents_associations WHERE linked_id = ${routes.id} AND type = 'pr' " >
-                    <field column="nb_linked_parking" name="nb_linked_parking" />
-                </entity>
-                <entity name="parking_route" query="SELECT main_id FROM app_documents_associations WHERE linked_id = ${routes.id} AND type = 'pr' " >
-                    <field column="main_id" name="id_linked_parking" />
-                </entity>
-                
-                <entity name="route_outing" query="SELECT count(linked_id) as nb_linked_outing FROM app_documents_associations WHERE main_id = ${routes.id} AND type = 'ro' " >
-                    <field column="nb_linked_outing" name="nb_linked_outing" />
-                </entity>  
-                -->         
-           </entity>
-
-           <entity name="articles" transformer="RegexTransformer" 
-               pk="id"
-               query="select id,activities,module from app_articles_archives where is_latest_version = true  "
-               
-               deltaQuery="SELECT id FROM app_documents_versions, app_articles_archives, app_history_metadata WHERE 
-               app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-               app_documents_versions.document_archive_id = app_articles_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-               deltaImportQuery="select id,activities,module from app_articles_archives where is_latest_version = true AND id=${dataimporter.delta.id}  "           > 
-               
-               <field column="activities" regex="^\{(.+)\}$" replaceWith="$1" name="activity"/> 
-               <field column="id" name="id_doc" />
-               <field column="module" name="module" />
-               <entity name="articles_in18" query="SELECT id,name,document_i18n_archive_id,description,abstract,culture from app_articles_i18n_archives where is_latest_version = true and id=${articles.id}">
-                       <field column="name" name="name" />
-                       <field column="document_i18n_archive_id" name="id_in18" />
-                       <field column="abstract" name="abstract" />
-                       <field column="description" name="description" />
-                       <field column="culture" name="culture" />     
-               </entity>
-           </entity>       
-           <entity name="parkings" 
-                   pk="id"
-                   query="SELECT id,module,elevation,public_transportation_rating,snow_clearance_rating,lowest_elevation from app_parkings_archives where is_latest_version = true "
-                   deltaQuery="SELECT id FROM app_documents_versions, app_summits_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_summits_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module,elevation,public_transportation_rating,snow_clearance_rating,lowest_elevation from app_parkings_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <field column="evelation" name="elevation" />
-                   <field column="public_transportation_rating" name="public_transportation_rating" /> 
-                   <field column="snow_clearance_rating" name="snow_clearance_rating" />
-                   <field column="lowest_elevation" name="lowest_elevation" />
-                   <entity name="parkings_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_parkings_i18n_archives where is_latest_version = true and id=${parkings.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
-           
-           
-           <entity name="products" 
-                   pk="id"
-                   query="SELECT id,module from app_products_archives where is_latest_version = true "
-                   deltaQuery="SELECT id FROM app_documents_versions, app_products_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_products_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module from app_products_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <entity name="products_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_products_i18n_archives where is_latest_version = true and id=${products.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
-                  
-           <entity name="books" 
-                   pk="id"
-                   query="SELECT id,module from app_books_archives where is_latest_version = true "
-                   deltaQuery="SELECT id FROM app_documents_versions, app_books_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_books_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module from app_books_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <entity name="books_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_books_i18n_archives where is_latest_version = true and id=${books.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
-             <entity name="images" 
-                   pk="id"
-                   query="SELECT id,module from app_images_archives where is_latest_version = true "
-                   deltaQuery="SELECT id FROM app_documents_versions, app_images_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_images_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module from app_images_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <entity name="images_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_images_i18n_archives where is_latest_version = true and id=${images.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
-           
-           <!-- To do add activities -->
-           
-            <entity name="maps" 
-                   pk="id"
-                   query="SELECT id,module from app_maps_archives where is_latest_version = true "
-                   deltaQuery="SELECT id FROM app_documents_versions, app_maps_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_maps_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
-                   deltaImportQuery="SELECT id,module from app_maps_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <entity name="maps_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_maps_i18n_archives where is_latest_version = true and id=${maps.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>
-           
-           <entity name="portals" 
+            </entity>       
+            <entity name="parkings" 
+                    pk="id"
+                    query="SELECT id,module,elevation,public_transportation_rating,snow_clearance_rating,lowest_elevation from app_parkings_archives where is_latest_version = true "
+                    deltaQuery="SELECT id FROM app_documents_versions, app_summits_archives, app_history_metadata WHERE 
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_summits_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaImportQuery="SELECT id,module,elevation,public_transportation_rating,snow_clearance_rating,lowest_elevation from app_parkings_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <field column="evelation" name="elevation" />
+                <field column="public_transportation_rating" name="public_transportation_rating" /> 
+                <field column="snow_clearance_rating" name="snow_clearance_rating" />
+                <field column="lowest_elevation" name="lowest_elevation" />
+                <entity name="parkings_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_parkings_i18n_archives where is_latest_version = true and id=${parkings.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                </entity>            
+            </entity>
+            <entity name="products" 
+                    pk="id"
+                    query="SELECT id,module from app_products_archives where is_latest_version = true "
+                    deltaQuery="SELECT id FROM app_documents_versions, app_products_archives, app_history_metadata WHERE 
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_products_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaImportQuery="SELECT id,module from app_products_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <entity name="products_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_products_i18n_archives where is_latest_version = true and id=${products.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                </entity>            
+            </entity>
+            <entity name="books" 
+                    pk="id"
+                    query="SELECT id,module from app_books_archives where is_latest_version = true "
+                    deltaQuery="SELECT id FROM app_documents_versions, app_books_archives, app_history_metadata WHERE 
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_books_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaImportQuery="SELECT id,module from app_books_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <entity name="books_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_books_i18n_archives where is_latest_version = true and id=${books.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                    <field column="description" name="description" />
+                </entity>            
+            </entity>
+            <entity name="areas" 
+                    pk="id"
+                    query="SELECT id,module from app_areas_archives where is_latest_version = true "
+                    deltaQuery="SELECT id FROM app_documents_versions, app_areas_archives, app_history_metadata WHERE 
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_areas_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaImportQuery="SELECT id,module from app_areas_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <entity name="areas_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_areas_i18n_archives where is_latest_version = true and id=${areas.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                    <field column="description" name="description" />
+                </entity>            
+            </entity> 
+            <entity name="portals" 
                    pk="id"
                    query="SELECT id,module from app_portals_archives where is_latest_version = true "
                    deltaQuery="SELECT id FROM app_documents_versions, app_portals_archives, app_history_metadata WHERE 
-                   app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
-                   app_documents_versions.document_archive_id = app_portals_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
-               
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_portals_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
                    deltaImportQuery="SELECT id,module from app_portals_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
-                   <field column="module" name="module" />    
-                   <field column="id" name="id_doc" />
-                   <entity name="portals_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_portals_i18n_archives where is_latest_version = true and id=${portals.id}">
-                        <field column="name" name="name" />
-                        <field column="document_i18n_archive_id" name="id_in18" />
-                        <field column="culture" name="culture" /> 
-                   </entity>            
-           </entity>           
-          
-    </document>
-</dataConfig>
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <entity name="portals_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_portals_i18n_archives where is_latest_version = true and id=${portals.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                </entity>            
+            </entity> 
+            <entity name="images" 
+                    pk="id"
+                    query="SELECT id,module from app_images_archives where is_latest_version = true "
+                    deltaQuery="SELECT id FROM app_documents_versions, app_images_archives, app_history_metadata WHERE 
+                       app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                       app_documents_versions.document_archive_id = app_images_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                   
+                    deltaImportQuery="SELECT id,module from app_images_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
+                <field column="module" name="module" />    
+                <field column="id" name="id_doc" />
+                <entity name="images_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_images_i18n_archives where is_latest_version = true and id=${images.id}">
+                    <field column="name" name="name" />
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="culture" name="culture" /> 
+                    <field column="description" name="description" />
+                </entity>            
+            </entity> 
+        </document>
+    </dataConfig>
+
