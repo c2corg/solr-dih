@@ -180,8 +180,6 @@
                                                         generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="1" preserveOriginal="1"/>
         <!-- suppression des mots insignifiants -->
         <filter class="solr.StopFilterFactory" ignoreCase="1" words="stopwords.txt" enablePositionIncrements="true"/>
-        <!-- lemmatisation (pluriels,...) -->
-        <filter class="solr.PorterStemFilterFactory"/>
         <!-- suppression des doublons éventuels -->
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
         
@@ -208,8 +206,6 @@
         <filter class="solr.StopFilterFactory" ignoreCase="1" words="stopwords.txt" enablePositionIncrements="true"/>
         <!-- gestion des synonymes -->
 	<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
-        <!-- lemmatisation (pluriels,...) -->
-        <filter class="solr.PorterStemFilterFactory"/>
         <!-- suppression des doublons éventuels -->
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
       </analyzer>
@@ -236,7 +232,6 @@
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1"
           generateNumberParts="1" catenateWords="1" catenateNumbers="1"
           catenateAll="0" splitOnCaseChange="1"/>
-        <filter class="solr.PorterStemFilterFactory"/>
        
       </analyzer>
       <analyzer type="query">
@@ -251,7 +246,6 @@
           generateNumberParts="1" catenateWords="1" catenateNumbers="1"
           catenateAll="0" splitOnCaseChange="1"/>
          <filter class="solr.RemoveDuplicatesTokenFilterFactory"/> 
-        <filter class="solr.PorterStemFilterFactory"/>
     </analyzer>
     </fieldType>
 
