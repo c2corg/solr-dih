@@ -284,7 +284,27 @@
                     <field column="culture" name="culture" /> 
                     <field column="description" name="description" />
                 </entity>            
-            </entity> 
+            </entity>
+            <entity name="users" 
+                pk="id"
+                query="SELECT id,module from app_users_archives where is_latest_version = true"
+                deltaQuery="SELECT id FROM app_documents_versions, app_users_archives, app_history_metadata WHERE 
+                    app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
+                    app_documents_versions.document_archive_id = app_users_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
+                    deltaImportQuery="SELECT id,module from app_users_archives where is_latest_version = true AND id=${dataimporter.delta.id} ">
+                <field column="id" name="id_doc" />
+                <field column="module" name="module" />    
+                <entity name="users_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_users_i18n_archives where is_latest_version = true and id=${users.id}">
+                    <field column="document_i18n_archive_id" name="id_in18" />
+                    <field column="name" name="name_User" />
+                    <field column="culture" name="culture" /> 
+                </entity>
+                <entity name="user_private_data" query="select * from app_users_private_data where id=${users.id}">
+                    <field name="user_private_public" column="is_profile_public" />
+                    <field column="username" name="name_UserForum" />
+                    <field column="topo_name" name="name_UserTopo" />
+                </entity>
+            </entity>
         </document>
     </dataConfig>
 
