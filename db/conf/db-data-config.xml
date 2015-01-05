@@ -160,7 +160,7 @@
                 <entity name="articles_in18" query="SELECT id,name,document_i18n_archive_id,description,abstract,culture from app_articles_i18n_archives where is_latest_version = true and id=${articles.id}">
                     <field column="name" name="name" />
                     <field column="document_i18n_archive_id" name="id_in18" />
-                    <field column="abstract" name="abstract" />
+                    <field column="abstract" name="abstract_article" />
                     <field column="description" name="description_article" />
                     <field column="culture" name="culture" />     
                 </entity>
