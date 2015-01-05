@@ -161,7 +161,7 @@
                     <field column="name" name="name" />
                     <field column="document_i18n_archive_id" name="id_in18" />
                     <field column="abstract" name="abstract" />
-                    <field column="description" name="description" />
+                    <field column="description" name="description_article" />
                     <field column="culture" name="culture" />     
                 </entity>
             </entity>       
