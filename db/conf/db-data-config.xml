@@ -203,7 +203,7 @@
             </entity>
             <entity name="books" 
                     pk="id"
-                    query="SELECT id,module from app_books_archives where is_latest_version = true "
+                    query="SELECT id,module,author from app_books_archives where is_latest_version = true "
                     deltaQuery="SELECT id FROM app_documents_versions, app_books_archives, app_history_metadata WHERE 
                        app_documents_versions.history_metadata_id = app_history_metadata.history_metadata_id AND
                        app_documents_versions.document_archive_id = app_books_archives.document_archive_id AND written_at > '${dataimporter.last_index_time}'"    
@@ -211,6 +211,7 @@
                     deltaImportQuery="SELECT id,module from app_books_archives where is_latest_version = true AND id=${dataimporter.delta.id} " >
                 <field column="module" name="module" />    
                 <field column="id" name="id_doc" />
+                <field column="author" name="author" />
                 <entity name="books_in18" query="SELECT id,name,document_i18n_archive_id,culture from app_books_i18n_archives where is_latest_version = true and id=${books.id}">
                     <field column="name" name="name" />
                     <field column="document_i18n_archive_id" name="id_in18" />
