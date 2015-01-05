@@ -454,12 +454,13 @@
    
  </fields>
  
- <!-- global search -->
+ <!-- general search -->
  <copyField source="name" dest="general_txt" />
  <copyField source="abstract_article" dest="general_txt" />
  <copyField source="description_article" dest="general_txt" />
  <copyField source="name_UserTopo" dest="general_txt" />
- <copyField source="name_UserForum" dest="general_txt" />  
+ <copyField source="name_UserForum" dest="general_txt" />
+  <copyField source="author" dest="general_txt" />  
  
  <!-- association search -->
   <copyField source="name" dest="association_txt" />
