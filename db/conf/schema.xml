@@ -413,6 +413,10 @@
    
    <!-- books -->
     <field name="author" type="text_fr" indexed="true" stored="true" multiValued="false" />
+    
+   <!-- article -->
+    <field name="description_article" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="false" termVectors="true" />
+    
    <!-- "default" values can be specified for fields, indicating which
         value should be used if no value is specified when adding a document.
      -->
@@ -450,7 +454,7 @@
  </fields>
  <copyField source="name" dest="alltxt" />
  <copyField source="abstract" dest="alltxt" />
- <copyField source="description" dest="alltxt" />
+ <copyField source="description_article" dest="alltxt" />
  <copyField source="name_UserTopo" dest="alltxt" />
  <copyField source="name_UserForum" dest="alltxt" />  
  <!-- Field to use to determine and enforce document uniqueness. 
