@@ -350,10 +350,10 @@
     <field name="maxelevation" type="sint" indexed="true" stored="true" required="false" multiValued="false" /> 
     <field name="minelevation" type="sint" indexed="true" stored="true" required="false" multiValued="false" /> 
     <field name="heightDiffUp" type="sint" indexed="true" stored="true" required="false" multiValued="false" /> 
-     <field name="name" type="text_fr" indexed="true" stored="true" multiValued="true" omitNorms="true" termVectors="true"  />
+    <field name="name" type="text_fr" indexed="true" stored="true" multiValued="true" omitNorms="true" termVectors="true"  />
     <field name="abstract" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="true" termVectors="true"  />
-     <field name="description" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="false" termVectors="true" />
-     <field name="alltxt" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="false" termVectors="true" />    
+    <field name="description" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="false" termVectors="true" />
+    <field name="alltxt" type="text_fr" indexed="true" stored="false" multiValued="true" omitNorms="false" termVectors="true" />    
      
    
     
@@ -410,7 +410,9 @@
    <field name="user_private_public" type="boolean" indexed="true" stored="true" />
  
    <field name="has_geom" type="boolean" indexed="true" stored="true" />
-  
+   
+   <!-- books -->
+    <field name="author" type="text_fr" indexed="true" stored="true" multiValued="false" />
    <!-- "default" values can be specified for fields, indicating which
         value should be used if no value is specified when adding a document.
      -->
