@@ -460,13 +460,16 @@
  <copyField source="description_article" dest="general_txt" />
  <copyField source="name_UserTopo" dest="general_txt" />
  <copyField source="name_UserForum" dest="general_txt" />
-  <copyField source="author" dest="general_txt" />  
+ <copyField source="author" dest="general_txt" />  
+ <copyField source="id_doc" dest="general_txt" /> 
  
  <!-- association search -->
-  <copyField source="name" dest="association_txt" />
+ <copyField source="name" dest="association_txt" />
  <copyField source="name_UserTopo" dest="association_txt" />
  <copyField source="name_UserForum" dest="association_txt" />  
  <copyField source="author" dest="association_txt" />  
+ <copyField source="id_doc" dest="association_txt" /> 
+ 
   
  
  <!-- Field to use to determine and enforce document uniqueness. 
