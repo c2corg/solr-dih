@@ -69,7 +69,7 @@
             <field column="has_unstaffed_wood" name="has_unstaffed_wood"/>
             <entity name="huts_in18" 
                 pk="document_i18n_archive_id"
-                query="SELECT name,document_i18n_archive_id,culture,description,description from app_huts_i18n_archives where is_latest_version = true and id=${huts.id}" >
+                query="SELECT name,document_i18n_archive_id,culture,description from app_huts_i18n_archives where is_latest_version = true and id=${huts.id}" >
                 <field column="name" name="name" />
                 <field column="document_i18n_archive_id" name="id_in18" />
                 <field column="culture" name="culture" /> 
@@ -306,7 +306,7 @@
                     <field column="topo_name" name="name_UserTopo" />
                 </entity>
             </entity>
-            <entity name="xreports"
+            <!-- <entity name="xreports"
                 pk="id"
                 query="SELECT id,module from app_xreports_archives where is_latest_version = true "
                 deltaQuery="SELECT id FROM app_documents_versions, app_xreports_archives, app_history_metadata WHERE
@@ -322,7 +322,7 @@
                     <field column="document_i18n_archive_id" name="id_in18" />
                     <field column="culture" name="culture" />
                 </entity>           
-            </entity>
+            </entity> -->
         </document>
     </dataConfig>
 
